@@ -1,0 +1,19 @@
+%% table.tex -- results table template
+%% Two-column paper: use table* and widen the tabular for a full-width table.
+\begin{table}[t]
+  \centering
+  \caption{Placeholder results (mean $\pm$ standard deviation over $N$ runs). Best values in bold; $\downarrow$ lower is better, $\uparrow$ higher is better.}
+  \label{tab:results}
+  \small
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabular}{@{}lccc@{}}
+    \toprule
+    Method       & Metric 1 ($\downarrow$)   & Metric 2 ($\uparrow$)     & Time (s)                  \\
+    \midrule
+    Baseline A   & 0.00 $\pm$ 0.00           & 0.00 $\pm$ 0.00           & 0.00                      \\
+    Baseline B   & 0.00 $\pm$ 0.00           & 0.00 $\pm$ 0.00           & 0.00                      \\
+    Baseline C   & 0.00 $\pm$ 0.00           & 0.00 $\pm$ 0.00           & 0.00                      \\
+    Proposed     & \textbf{0.00 $\pm$ 0.00}  & \textbf{0.00 $\pm$ 0.00}  & \textbf{0.00}             \\
+    \bottomrule
+  \end{tabular}
+\end{table}

@@ -1,0 +1,143 @@
+%% =====================================================================
+%%  response_to_reviewers.tex  --  point-by-point response letter
+%%
+%%  Structure:
+%%    \editor                       starts the Editor's comments
+%%    \reviewer                     starts Reviewer 1, 2, ... (auto-numbered)
+%%    \reviewercomment{...}         one reviewer comment (auto-numbered R1.1, R1.2, ...)
+%%    \begin{response}...\end{response}   your reply (coloured)
+%%    \begin{revisedtext}...\end{revisedtext}  quote of the new manuscript text
+%%  Label a comment with \label{R1.2} and refer to it with \ref{R1.2}.
+%% =====================================================================
+\documentclass[11pt]{letter}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{amsmath,amssymb}
+\usepackage{url}
+\usepackage[colorlinks=true,linkcolor=black,urlcolor=blue!50!black]{hyperref}
+
+%% ---------------------------------------------------------------------
+%% CONFIGURATION
+%% ---------------------------------------------------------------------
+\def\ManuscriptTitle{Title of the Manuscript}
+\def\ManuscriptID{MS-ID-0000}
+\def\JournalName{Journal Name}
+\def\RevisionRound{first}            % first, second, ...
+
+\newif\ifcolorresponses
+\colorresponsestrue                  % \colorresponsesfalse -> responses in black
+\def\ResponseColor{blue}
+
+%% ---------------------------------------------------------------------
+%% MACROS (no need to edit)
+%% ---------------------------------------------------------------------
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+
+\newcounter{reviewer}
+\newcounter{revcomment}
+\def\CommentPrefix{E}
+\renewcommand{\therevcomment}{\CommentPrefix.\arabic{revcomment}}
+
+\newcommand{\responseheading}[1]{%
+  \par\bigskip\noindent{\large\bfseries #1}\par
+  \vspace{-4pt}\noindent\rule{\linewidth}{0.4pt}\par}
+
+\newcommand{\editor}{%
+  \def\CommentPrefix{E}\setcounter{revcomment}{0}%
+  \responseheading{Comments from the Editor}}
+
+\newcommand{\reviewer}{%
+  \stepcounter{reviewer}%
+  \edef\CommentPrefix{R\arabic{reviewer}}\setcounter{revcomment}{0}%
+  \responseheading{Comments from Reviewer \#\arabic{reviewer}}}
+
+\newcommand{\reviewercomment}[1]{%
+  \refstepcounter{revcomment}%
+  \par\medskip\noindent\textbf{Comment \therevcomment.}\ \textit{#1}\par}
+
+\newenvironment{response}
+  {\par\noindent\ifcolorresponses\color{\ResponseColor}\fi\textbf{Response.}\ }
+  {\par}
+
+\newenvironment{revisedtext}[1][]
+  {\par\smallskip\noindent\textit{Revised text}\if\relax\detokenize{#1}\relax\else\ (#1)\fi:%
+   \begin{quote}\small}
+  {\end{quote}}
+
+\signature{Author One, Author Two, and Author Three}
+
+\begin{document}
+%% =====================================================================
+%% COVER LETTER
+%% =====================================================================
+\begin{letter}{}
+  \opening{Dear Editor,}
+
+  We thank the editor and the reviewers for their thoughtful and constructive comments on our manuscript, ``\ManuscriptTitle'' (\ManuscriptID), submitted to \textit{\JournalName}. This letter responds to the \RevisionRound\ round of comments. We have addressed every comment and summarize the main changes below.
+
+  \begin{itemize}
+    \item Summary of major change 1 (Section X).
+    \item Summary of major change 2 (Table Y, Figure Z).
+    \item Summary of major change 3.
+  \end{itemize}
+
+  Reviewer comments are reproduced in italics, followed by our responses\ifcolorresponses\ in {\color{\ResponseColor}\ResponseColor}\fi. Where a response refers to a change in the manuscript, we give the section, equation, table, or figure. All modifications in the revised manuscript are highlighted\ifcolorresponses\ in {\color{\ResponseColor}\ResponseColor}\fi.
+
+  \closing{Sincerely,}
+\end{letter}
+
+%% =====================================================================
+%% EDITOR
+%% =====================================================================
+\editor
+
+\reviewercomment{Paste the editor's comment here.}
+
+\begin{response}
+  We thank the editor for this comment. Describe what was changed and where.
+\end{response}
+
+%% =====================================================================
+%% REVIEWER 1
+%% =====================================================================
+\reviewer
+
+\reviewercomment{Paste Reviewer 1, comment 1 here.}\label{R1.1}
+
+\begin{response}
+  We thank the reviewer for this suggestion. Explain the change and its location in the manuscript (Section X, paragraph Y).
+
+  \begin{revisedtext}[Section X, paragraph Y]
+    Quote the new or revised text from the manuscript here.
+  \end{revisedtext}
+\end{response}
+
+\reviewercomment{Paste Reviewer 1, comment 2 here.}
+
+\begin{response}
+  We agree with the reviewer. Describe the change. For a related point, see our response to Comment~\ref{R1.1}.
+\end{response}
+
+%% =====================================================================
+%% REVIEWER 2
+%% =====================================================================
+\reviewer
+
+\reviewercomment{Paste Reviewer 2, comment 1 here.}
+
+\begin{response}
+  We thank the reviewer for this comment. Respond here.
+\end{response}
+
+\reviewercomment{Paste Reviewer 2, comment 2 here.}
+
+\begin{response}
+  Respond here. If you respectfully disagree, give the reasoning and any evidence.
+\end{response}
+
+%% Copy a \reviewer block for each additional reviewer.
+
+\end{document}

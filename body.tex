@@ -1,0 +1,116 @@
+%% body.tex -- main content of the paper 
+%% Use \rev{...} or \begin{revision}...\end{revision} for changes made
+%% during peer review; switch colour on/off in main.tex.
+
+%% =====================================================================
+\section{Introduction}\label{sec:intro}
+%% =====================================================================
+Introduce the application domain and the decision or modeling problem. Explain why existing methods are insufficient~\citep{boyd2004convex,nocedal2006numerical}. State the research question.
+
+\rev{This sentence shows how a change requested by a reviewer appears. Set \texttt{\textbackslash highlightrevisionsfalse} in \texttt{main.tex} to typeset it in black.}
+
+Our contributions are:
+\begin{itemize}
+  \item \textbf{Modeling.} A new formulation of \ldots
+  \item \textbf{Theory.} We prove that \ldots\ (\cref{thm:main}).
+  \item \textbf{Algorithm.} An efficient procedure with complexity \ldots\ (\cref{alg:method}).
+  \item \textbf{Experiments.} Numerical evidence on \ldots\ (\cref{sec:results}).
+\end{itemize}
+The remainder of the paper is organized as follows. \Cref{sec:related} reviews related work, \cref{sec:problem} formulates the problem, \cref{sec:method} presents the method, \cref{sec:results} reports numerical results, and \cref{sec:conclusion} concludes.
+
+%% =====================================================================
+\section{Related Work}\label{sec:related}
+%% =====================================================================
+\paragraph{Topic A.} Summarize the first line of work~\citep{tibshirani1996regression}.
+
+\paragraph{Topic B.} Summarize the second line of work~\citep{rasmussen2006gaussian,benner2015survey}.
+
+\paragraph{Positioning.} Explain how this paper differs from the works above.
+
+%% =====================================================================
+\section{Problem Formulation}\label{sec:problem}
+%% =====================================================================
+\paragraph{Notation.} Vectors are bold lowercase ($\bm{x}\in\R^n$), matrices bold uppercase ($\bm{A}\in\R^{m\times n}$), $\norm{\cdot}$ denotes the Euclidean norm, $\inner{\bm{x}}{\bm{y}}=\bm{x}\T\bm{y}$, and $[n]\coloneqq\{1,\dots,n\}$.
+
+We consider the problem
+\begin{mini}|s|
+  {\bm{x}\in\R^n}{f(\bm{x}) \coloneqq \E_{\xi}\big[F(\bm{x},\xi)\big]}{\label{eq:problem}}{}
+  \addConstraint{g_i(\bm{x})}{\le 0,}{\quad i\in[m]}
+  \addConstraint{\bm{A}\bm{x}}{=\bm{b},}{}
+\end{mini}
+where $F:\R^n\times\Xi\to\R$ is \ldots\ and $\xi$ is a random vector with distribution $\Prob$.
+
+\begin{assumption}\label{ass:smooth}
+The function $f$ is convex and $L$-smooth, i.e., $\norm{\nabla f(\bm{x})-\nabla f(\bm{y})}\le L\norm{\bm{x}-\bm{y}}$ for all $\bm{x},\bm{y}$.
+\end{assumption}
+
+%% =====================================================================
+\section{Methodology}\label{sec:method}
+%% =====================================================================
+Describe the proposed approach. A displayed equation with a label:
+\begin{equation}\label{eq:update}
+  \bm{x}_{k+1} = \proj_{\mathcal{X}}\big(\bm{x}_k - \eta_k \nabla f(\bm{x}_k)\big).
+\end{equation}
+
+\begin{algorithm}[t]
+  \caption{Proposed method}\label{alg:method}
+  \begin{algorithmic}[1]
+    \Require initial point $\bm{x}_0$, step sizes $\{\eta_k\}$, tolerance $\varepsilon$
+    \For{$k = 0,1,2,\dots$}
+      \State compute $\nabla f(\bm{x}_k)$
+      \State update $\bm{x}_{k+1}$ by \eqref{eq:update}
+      \If{$\norm{\bm{x}_{k+1}-\bm{x}_k}\le\varepsilon$} \State \textbf{break} \EndIf
+    \EndFor
+    \Ensure $\bm{x}_{k+1}$
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection{Theoretical Analysis}\label{sec:theory}
+\begin{theorem}\label{thm:main}
+Under \cref{ass:smooth}, with $\eta_k = 1/L$, the iterates of \cref{alg:method} satisfy
+\[
+  f(\bm{x}_k) - f^\star \le \frac{L\norm{\bm{x}_0-\bm{x}^\star}^2}{2k}.
+\]
+\end{theorem}
+\begin{proof}
+Sketch the argument or refer to the appendix.
+\end{proof}
+
+\begin{remark}
+Comment on the assumptions, tightness of the bound, or extensions.
+\end{remark}
+
+%% =====================================================================
+\section{Numerical Experiments}\label{sec:results}
+%% =====================================================================
+\subsection{Experimental Setup}\label{sec:setup}
+Describe datasets or test instances, baselines, hyperparameters, hardware, and the number of repetitions. Report tolerances with \texttt{siunitx}, e.g., $\varepsilon=\num{1e-6}$ and a time limit of \SI{3600}{\second}.
+
+\subsection{Results}\label{sec:main-results}
+\Cref{tab:results} summarizes the main results and \cref{fig:placeholder} shows \ldots
+
+\input{table}
+\input{fig}
+
+\begin{revision}
+A longer revised passage, including equations, can be wrapped in the \texttt{revision} environment:
+\begin{equation}
+  \mathrm{Gap}_k = \frac{f(\bm{x}_k)-f^\star}{\abs{f^\star}}.
+\end{equation}
+\end{revision}
+
+\subsection{Sensitivity Analysis}\label{sec:sensitivity}
+Discuss robustness to parameters, problem size, or noise.
+
+%% =====================================================================
+\section{Discussion}\label{sec:discussion}
+%% =====================================================================
+Interpret the results, state limitations, and outline when the method should or should not be used.
+
+%% =====================================================================
+\section{Conclusion}\label{sec:conclusion}
+%% =====================================================================
+Summarize the contributions and findings, and give directions for future work.
+
+\section*{Acknowledgments}
+Funding sources and acknowledgments (remove for anonymous submissions).

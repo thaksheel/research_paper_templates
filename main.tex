@@ -1,0 +1,194 @@
+%% =====================================================================
+%%  main.tex  --  single source that assembles the paper
+%% =====================================================================
+
+%% ---------------------------------------------------------------------
+%% 1. CONFIGURATION
+%% ---------------------------------------------------------------------
+
+% Output style:  twocolumn | article | neurips | custom
+\def\PaperStyle{twocolumn}
+
+% --- NeurIPS only: options passed to neurips_2026.sty -----------------
+%   main               main track, anonymous submission (line numbers)
+%   main,final         camera-ready main track
+%   preprint           arXiv version (non-anonymous, no line numbers)
+%   position | eandd | creativeai | education
+%   dblblindworkshop | sglblindworkshop   (also set the workshop title)
+\def\NeurIPSOptions{main}
+\def\NeurIPSWorkshopTitle{Name of the Workshop}
+
+% --- Custom journal only: any .cls/.sty/.bst the journal provides ------
+%   Put the journal's files in styles/ (or the main folder).
+%   Examples:  elsarticle  [preprint,12pt]            bst: elsarticle-num
+%              IEEEtran    [journal]                  bst: IEEEtran
+%              informs4    [ijoc,blindrev]            bst: informs2014
+%              svjour3     [smallextended]            bst: spmpsci
+\def\CustomClass{article}
+\def\CustomClassOptions{11pt}
+\def\CustomStyle{}            % journal .sty without extension; empty = none
+\def\CustomBibStyle{plainnat} % journal .bst without extension
+
+% Bibliography database (ref.bib)
+\def\BibFile{ref}
+
+% --- Revision highlighting ---------------------------------------------
+% Wrap changed text in \rev{...} or \begin{revision} ... \end{revision}.
+%   \highlightrevisionstrue   -> changes shown in \RevisionColor
+%   \highlightrevisionsfalse  -> changes typeset in black (final version)
+\newif\ifhighlightrevisions
+\highlightrevisionstrue
+\def\RevisionColor{blue}      % any xcolor name, e.g. red, OliveGreen, blue!70!black
+
+% Set to \LoadTheoremsfalse if the journal class already defines
+% theorem/proof environments (e.g., svjour3, sn-jnl).
+\newif\ifLoadTheorems
+\LoadTheoremstrue
+
+%% ---------------------------------------------------------------------
+%% 2. DOCUMENT CLASS + STYLE (no need to edit below this line)
+%% ---------------------------------------------------------------------
+\makeatletter
+\def\input@path{{styles/}{./}}   % lets LaTeX find files in styles/
+\makeatother
+\PassOptionsToPackage{dvipsnames,svgnames}{xcolor}
+
+\def\StyleTwoColumn{twocolumn}
+\def\StyleArticle{article}
+\def\StyleNeurIPS{neurips}
+\def\StyleCustom{custom}
+\def\EmptyString{}
+
+\ifx\PaperStyle\StyleTwoColumn
+  \documentclass[10pt,twocolumn]{article}
+  \usepackage{style-twocolumn}
+  \def\PaperBibStyle{unsrtnat}
+\else\ifx\PaperStyle\StyleArticle
+  \documentclass[11pt]{article}
+  \usepackage{style-article}
+  \def\PaperBibStyle{plainnat}
+\else\ifx\PaperStyle\StyleNeurIPS
+  \documentclass{article}
+  \usepackage{style-neurips}
+  \def\PaperBibStyle{plainnat}
+\else\ifx\PaperStyle\StyleCustom
+  \edef\LoadPaperClass{\noexpand\documentclass[\CustomClassOptions]{\CustomClass}}
+  \LoadPaperClass
+  \ifx\CustomStyle\EmptyString\else
+    \edef\LoadPaperStyle{\noexpand\usepackage{\CustomStyle}}
+    \LoadPaperStyle
+  \fi
+  \let\PaperBibStyle\CustomBibStyle
+\else
+  \errmessage{Unknown \string\PaperStyle\space value. Use twocolumn, article, neurips or custom}
+\fi\fi\fi\fi
+
+%% ---------------------------------------------------------------------
+%% 3. SHARED PACKAGES (applied math / engineering)
+%% ---------------------------------------------------------------------
+\makeatletter
+\@ifpackageloaded{natbib}{}{\usepackage[numbers,sort&compress]{natbib}}
+\makeatother
+
+% Mathematics
+\usepackage{amsmath,amssymb}
+\usepackage{mathtools}           % \DeclarePairedDelimiter, \coloneqq, cases*
+\usepackage{bm}                  % bold math symbols: \bm{x}
+\usepackage{nicefrac}            % inline fractions \nicefrac{1}{2}
+\usepackage{optidef}             % optimization problems: mini, maxi, argmini
+\ifLoadTheorems \usepackage{amsthm} \fi
+
+% Units, numbers and tables
+\usepackage{siunitx}             % \num{1e-5}, \SI{3}{\meter}, S columns
+\usepackage{booktabs,multirow,array,makecell}
+
+% Figures, plots and colour
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows.meta,fit,calc,shapes.geometric}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+% Algorithms and lists
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{enumitem}
+
+% Typography and links (hyperref and cleveref must be last)
+\usepackage{microtype}
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=blue!50!black,
+            citecolor=blue!50!black,urlcolor=blue!50!black}
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+\graphicspath{{figures/}{./}}
+
+%% ---------------------------------------------------------------------
+%% 4. REVISION HIGHLIGHTING
+%% ---------------------------------------------------------------------
+% \rev{text}                 inline or multi-paragraph change
+% \begin{revision}...\end{revision}   longer block (equations, lists)
+\newcommand{\rev}[1]{\ifhighlightrevisions{\color{\RevisionColor}#1}\else#1\fi}
+\newenvironment{revision}{\ifhighlightrevisions\color{\RevisionColor}\fi}{}
+\pdfstringdefDisableCommands{\def\rev#1{#1}}   % safe inside \section{}
+
+%% ---------------------------------------------------------------------
+%% 5. THEOREMS AND MATH MACROS
+%% ---------------------------------------------------------------------
+\ifLoadTheorems
+  \theoremstyle{plain}
+  \newtheorem{theorem}{Theorem}
+  \newtheorem{proposition}[theorem]{Proposition}
+  \newtheorem{lemma}[theorem]{Lemma}
+  \newtheorem{corollary}[theorem]{Corollary}
+  \theoremstyle{definition}
+  \newtheorem{definition}{Definition}
+  \newtheorem{assumption}{Assumption}
+  \newtheorem{example}{Example}
+  \theoremstyle{remark}
+  \newtheorem{remark}{Remark}
+\fi
+
+% Sets and probability
+\providecommand{\R}{\mathbb{R}}
+\providecommand{\N}{\mathbb{N}}
+\providecommand{\Z}{\mathbb{Z}}
+\providecommand{\E}{\mathbb{E}}
+\providecommand{\Prob}{\mathbb{P}}
+\providecommand{\Var}{\operatorname{Var}}
+\providecommand{\Cov}{\operatorname{Cov}}
+\providecommand{\Normal}{\mathcal{N}}
+% Linear algebra and optimization
+\providecommand{\T}{^{\top}}
+\providecommand{\tr}{\operatorname{tr}}
+\providecommand{\diag}{\operatorname{diag}}
+\providecommand{\rank}{\operatorname{rank}}
+\providecommand{\argmin}{\operatorname*{arg\,min}}
+\providecommand{\argmax}{\operatorname*{arg\,max}}
+\providecommand{\proj}{\operatorname{proj}}
+\providecommand{\dom}{\operatorname{dom}}
+\DeclarePairedDelimiter{\abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\norm}{\lVert}{\rVert}
+\DeclarePairedDelimiter{\inner}{\langle}{\rangle}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+%% ---------------------------------------------------------------------
+%% 6. DOCUMENT
+%% ---------------------------------------------------------------------
+\input{title}
+
+\begin{document}
+\maketitle
+\input{abstract}
+\input{body}
+
+\bibliographystyle{\PaperBibStyle}
+\bibliography{\BibFile}
+
+% \appendix
+% \input{appendix}
+\end{document}

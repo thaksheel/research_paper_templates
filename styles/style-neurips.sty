@@ -1,0 +1,21 @@
+%% style-neurips.sty -- wrapper around the official neurips_2026.sty
+%% Use with \documentclass{article}. Track options come from
+%% \NeurIPSOptions and the workshop name from \NeurIPSWorkshopTitle,
+%% both set in the configuration block of main.tex.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style-neurips}[2026/11/25 NeurIPS 2026 wrapper]
+
+\providecommand{\NeurIPSOptions}{main}
+\providecommand{\NeurIPSWorkshopTitle}{}
+
+% NeurIPS uses natbib in author-year mode (\citet, \citep).
+% For numeric citations instead, uncomment:
+% \PassOptionsToPackage{numbers,sort&compress}{natbib}
+
+\edef\neurips@load{\noexpand\RequirePackage[\NeurIPSOptions]{neurips_2026}}
+\neurips@load
+\workshoptitle{\NeurIPSWorkshopTitle}
+
+\RequirePackage[T1]{fontenc}
+
+\endinput

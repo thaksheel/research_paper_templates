@@ -1,0 +1,24 @@
+%% style-article.sty -- simple one-column article (Latin Modern, 11pt)
+%% Use with \documentclass[11pt]{article}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style-article}[2026/11/25 Simple article style]
+
+% Page and fonts
+\RequirePackage[letterpaper,margin=1in]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+
+% Line spacing: uncomment one for drafts / journals that ask for it
+\RequirePackage{setspace}
+% \onehalfspacing
+% \doublespacing
+
+% Citations: numeric, sorted and compressed [1-3]
+\RequirePackage[numbers,sort&compress]{natbib}
+
+% Captions and lists
+\RequirePackage[font=small,labelfont=bf]{caption}
+\RequirePackage{enumitem}
+\setlist{itemsep=2pt,topsep=4pt}
+
+\endinput

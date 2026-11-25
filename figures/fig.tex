@@ -1,0 +1,27 @@
+%% fig.tex -- figure templates (images are read from figures/)
+%% Two-column paper: use figure* with width=\textwidth for a full-width figure.
+
+% --- Single image --------------------------------------------------------
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{./figures/image.png}
+  \caption{Placeholder caption. Describe what is plotted, the axes, and the main takeaway.}
+  \label{fig:placeholder}
+\end{figure}
+
+% --- Two side-by-side panels (uncomment to use) -------------------------
+% \begin{figure}[t]
+%   \centering
+%   \begin{subfigure}[t]{0.48\linewidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{image.png}
+%     \caption{Panel A.}\label{fig:panel-a}
+%   \end{subfigure}\hfill
+%   \begin{subfigure}[t]{0.48\linewidth}
+%     \centering
+%     \includegraphics[width=\linewidth]{image.png}
+%     \caption{Panel B.}\label{fig:panel-b}
+%   \end{subfigure}
+%   \caption{Overall caption for both panels.}
+%   \label{fig:panels}
+% \end{figure}

@@ -1,0 +1,33 @@
+%% style-twocolumn.sty -- compact two-column layout (Times, 10pt)
+%% Use with \documentclass[10pt,twocolumn]{article}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{style-twocolumn}[2026/11/25 Two-column research paper style]
+
+% Page and fonts
+\RequirePackage[letterpaper,margin=0.75in,columnsep=0.25in]{geometry}
+\RequirePackage[T1]{fontenc}
+\RequirePackage{mathptmx}
+\renewcommand{\ttdefault}{pcr}
+
+% Citations: numeric, sorted and compressed [1-3]
+\RequirePackage[numbers,sort&compress]{natbib}
+\setlength{\bibsep}{1pt}
+\renewcommand{\bibfont}{\small}
+
+% Captions, headings and lists
+\RequirePackage[font=small,labelfont=bf]{caption}
+\RequirePackage{titlesec}
+\titleformat{\section}{\normalfont\large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries}{\thesubsection}{0.5em}{}
+\titleformat{\subsubsection}{\normalfont\normalsize\bfseries\itshape}{\thesubsubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.1ex plus .4ex}{0.6ex}
+\titlespacing*{\subsection}{0pt}{0.9ex plus .3ex}{0.4ex}
+\titlespacing*{\subsubsection}{0pt}{0.8ex plus .3ex}{0.3ex}
+\RequirePackage{enumitem}
+\setlist{nosep,leftmargin=*}
+
+% Bold title
+\let\twocol@title\title
+\renewcommand{\title}[1]{\twocol@title{\bfseries #1}}
+
+\endinput
