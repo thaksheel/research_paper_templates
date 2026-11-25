@@ -1,0 +1,115 @@
+% Set this variable to control whether the report format or the journal format 
+% is used
+\def\coralreport{1}
+
+% Unfortunately, there is no way to automatically switch document classes.
+% You have to manually switch to article format when using the tech report 
+% style.  
+\documentclass[11pt]{article}
+%\documentclass[matprg]{svjour}
+
+% This is so you can use conditionals depending on whether it is a tech report 
+% or not
+\usepackage{ifthen}
+
+% This is the block in which you set the report number if it is a tech report
+\ifthenelse{\coralreport = 1}{
+\usepackage{isetechreport}
+\def\reportyear{12T}
+% The report number is the same one used in the ISE tech report series
+\def\reportno{015}
+% This is the revision number (increment for each revision)
+\def\revisionno{2}
+% This is the date f the original report
+\def\originaldate{March 26, 2012}
+% This is the date of the latest revision
+\def\revisiondate{May 29, 2013}
+% Set these variables according to whether this should be a CORAL or CVCR 
+% report
+\coraltrue
+\cvcrfalse
+
+}{}
+
+\begin{document}
+
+\title{This Is an Example}
+
+% You probably need different styles for authors. the tech report uses the 
+% authblk package to parse the list of authors and format it for both the 
+% title page and the list of authors on the first page. There are a number
+% of ways of listing authors with this package, but the easiest is to list 
+% them one by one. 
+
+% \author{first author} 
+% \affil{first author's affiliation}
+% \author{second author} 
+% \affil{second author's affiliation}
+
+% If more than one author is listed before giving an affiliation, then all
+% authors listed before each affiliation will be given that same affiliation.
+
+% \author{first author} 
+% \author{second author} 
+% \affil{first and second author's affiliations}
+% \author{third author} 
+% \affil{third author's affiliations}
+
+% Use \thanks to add e-mail addresses if desired 
+
+\ifthenelse{\coralreport = 1}{
+
+\author{Ted K. Ralphs\thanks{E-mail: \texttt{ted@lehigh.edu},
+supported by NSF Grant CMMI-0728011}}
+\author{Joe Q. Student\thanks{E-mail: \texttt{joe@lehigh.edu},
+supported by NSF Grant CMMI-0728011}}
+\affil{Department of Industrial and Systems Engineering, Lehigh University, USA}
+
+\author{Joe Q. Blow\thanks{E-mail: \texttt{joe@podunk.edu}}} 
+\affil{Department of Mathematics and Computer Science, Podunk University}
+
+%You must have this command persent or you will get weird errors with
+%the tabular environment
+\titlepage
+
+}{
+
+\author{Ted K. Ralphs \and Joe Q. Blow}
+\institute{Ted K. Ralphs\\
+Department of Industrial and Systems Engineering, Lehigh University, USA\\
+\email{ted@lehigh.edu}
+\and 
+Joe Q. Blow\\
+Department of Mathematics and Computer Science, Podunk University\\
+\email{joe@podunk.edu}
+}
+\subclass{90C10, 90C57, 90C60, 90C99}
+
+\date{\today}
+
+}
+
+\maketitle
+
+\begin{abstract}
+This is an Example of how to use the ISE tech report style file.
+\ifthenelse{\coralreport = 0}{
+\bigskip\noindent
+{\bf Keywords:} BS  
+}{}
+
+\end{abstract}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+
+This report is full of a lot of BS. Please ignore everything said here.
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+That's all!
+
+\end{document}
